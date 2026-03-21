@@ -1,0 +1,11 @@
+mod_info:
+  description_file: README.md
+  summary: test mod 1
+  title: test mod 1
+  attach_source_link: false
+  license: mit
+  category: internal
+  tags:
+    - logistic-network
+    - circuit-network
+    - trains
