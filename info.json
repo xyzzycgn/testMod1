@@ -3,9 +3,8 @@
   "title": "Test Mod 1",
   "description": "test Mod 1 for logging",
   "author": "xyzzycgn",
-  "version": "1.0.3",
-  "factorio_version": "2.0",
+  "version": "1.1.ß",
+  "factorio_version": "2.1",
   "dependencies": [
-    "log4factorio >= 0.0.1"
   ]
 }
