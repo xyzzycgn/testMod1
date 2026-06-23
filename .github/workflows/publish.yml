@@ -3,26 +3,26 @@ name: Publish Factorio Mod
 on:
   push:
     tags:
-      - '*'
+      - '1.0.[0-9]*' # TODO change to '[0-9]*.[0-9]*.[0-9]*' when factorio 2.1 is finally released
 jobs:
   publish-mod:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Validate Mod
-        uses: xyzzycgn/factorio-mod-uploader-action@2.0.6
+        uses: xyzzycgn/factorio-mod-uploader-action@2.0.7
         with:
           action: validate
 
       - name: Create zip
-        uses: xyzzycgn/factorio-mod-uploader-action@2.0.6
+        uses: xyzzycgn/factorio-mod-uploader-action@2.0.7
         with:
           action: compress
 
       - name: Upload Mod
-        uses: xyzzycgn/factorio-mod-uploader-action@2.0.6
+        uses: xyzzycgn/factorio-mod-uploader-action@2.0.7
         with:
           action: upload
           factorio-api-key: ${{ secrets.FACTORIO_API_KEY }}
