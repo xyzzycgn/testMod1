@@ -1,4 +1,4 @@
-name: Bump Version in JSON
+name: Bump Version in JSON (2.1 series)
 
 on:
   workflow_run:
@@ -18,7 +18,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v6
         with:
-          ref: V2.1
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Calculate Next Semantic Version
         id: version
