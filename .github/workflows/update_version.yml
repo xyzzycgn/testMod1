@@ -19,7 +19,11 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0 # fetches git-History
-          ref: V2.1
+
+      - name: Switch to V2.1 Branch manually
+        run: |
+          git checkout V2.1
+          git pull origin V2.1
 
       - name: Calculate Next Semantic Version
         id: version
