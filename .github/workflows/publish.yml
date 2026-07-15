@@ -1,4 +1,4 @@
-name: Publish Factorio Mod
+name: Publish Factorio Mod 2.1
 
 on:
   push:
