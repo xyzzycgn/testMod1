@@ -1,12 +1,7 @@
 name: Bump Version in JSON (2.1 series)
 
 on:
-  workflow_run:
-    workflows: ["Publish Factorio Mod 2.1"] # start after publish is finished
-    types:
-      - completed
-    branches:
-      - V2.1
+  workflow_call:
 
 permissions:
   contents: write
