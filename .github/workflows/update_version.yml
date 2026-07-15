@@ -19,31 +19,18 @@ jobs:
           fetch-depth: 0 # fetches git-History
 
       - name: Calculate Next Semantic Version
-        id: semver
-        uses: paulhatch/semantic-version@v5.4.0
-          # optional: looks for #major, #minor, #patch in commit-msgs
-#          major_pattern: "(MAJOR)"
-#          minor_pattern: "(MINOR)"
-#          version_format: "${major}.${minor}.${patch}"
-
-      - name: Update Version in Custom JSON File
-        run: |
-          JSON_FILE="info.json"
-          
-          # calculate new version
-          NEW_VERSION="${{ steps.semver.outputs.version }}"
-          echo "bump to new version: $NEW_VERSION"
-          
-          # Nutzt 'jq' (auf Ubuntu-Runnern vorinstalliert), um das Feld "version" sicher zu updaten
-          jq --arg ver "$NEW_VERSION" '.version = $ver' "$JSON_FILE" > temp.json && mv temp.json "$JSON_FILE"
+        id: version
+        uses: Kaven-Universe/github-action-auto-increment-version@v1
+        with:
+          file: "info.json"
 
       - name: Commit and Push JSON Change
         run: |
           git config --local user.email "github-actions[bot]@://github.com"
           git config --local user.name "github-actions[bot]"
           
-          git add $JSON_FILE
+          git add "info.json"
           # Prevents the workflow from failing if the version has not changed.
-          git diff-index --quiet HEAD || git commit -m "chore: bump version to ${{ steps.semver.outputs.version }} [skip ci]"
-          git push origin main
+          git diff-index --quiet HEAD || git commit -m "chore: bump version to ${{ steps.version.outputs.newVersion }} [skip ci]"
+          git push
 
