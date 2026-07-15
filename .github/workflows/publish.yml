@@ -34,4 +34,4 @@ jobs:
           factorio-api-key: ${{ secrets.FACTORIO_API_KEY }}
 
   call-update-version:
-    uses: ./.github/workflows/update_version.yml
+    uses: xyzzycgn/testMod1/.github/workflows/update_version.yml@V2.1
