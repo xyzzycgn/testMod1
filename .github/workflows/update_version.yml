@@ -1,0 +1,51 @@
+name: Bump Version in JSON
+
+on:
+  workflow_run:
+    workflows: ["publish.mod"] # start after publish is finished
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # fetches git-History
+
+      - name: Calculate Next Semantic Version
+        id: semver
+        uses: paulhatch/semantic-version@v5.4.0
+        with:
+          branch: main
+          # optional: looks for #major, #minor, #patch in commit-msgs
+#          major_pattern: "(MAJOR)"
+#          minor_pattern: "(MINOR)"
+#          version_format: "${major}.${minor}.${patch}"
+
+      - name: Update Version in Custom JSON File
+        run: |
+          JSON_FILE="info.json"
+          
+          # calculate new version
+          NEW_VERSION="${{ steps.semver.outputs.version }}"
+          echo "bump to new version: $NEW_VERSION"
+          
+          # Nutzt 'jq' (auf Ubuntu-Runnern vorinstalliert), um das Feld "version" sicher zu updaten
+          jq --arg ver "$NEW_VERSION" '.version = $ver' "$JSON_FILE" > temp.json && mv temp.json "$JSON_FILE"
+
+      - name: Commit and Push JSON Change
+        run: |
+          git config --local user.email "github-actions[bot]@://github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git add $JSON_FILE
+          # Prevents the workflow from failing if the version has not changed.
+          git diff-index --quiet HEAD || git commit -m "chore: bump version to ${{ steps.semver.outputs.version }} [skip ci]"
+          git push origin main
+
