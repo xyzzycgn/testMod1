@@ -28,3 +28,6 @@ jobs:
         with:
           action: upload
           factorio-api-key: ${{ secrets.FACTORIO_API_KEY }}
+
+  call-update-version:
+    uses: ./.github/workflows/update-version.yml
