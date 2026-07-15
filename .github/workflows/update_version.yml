@@ -1,4 +1,4 @@
-name: Bump Version in JSON
+name: Bump Version in JSON (2.1 series)
 
 on:
   workflow_run:
